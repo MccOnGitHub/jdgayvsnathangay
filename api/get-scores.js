@@ -16,5 +16,21 @@ export default async function handler(req, res) {
   }
 
   res.status(200).json(data);
+}function loadLeaderboard() {
+    fetch('/api/get-scores')
+        .then(res => res.json())
+        .then(data => {
+            let leaderboardHTML = "<h2>🏆 Leaderboard</h2><ul>";
+            data.forEach(entry => {
+                leaderboardHTML += `<li>${entry.name} - JD: ${entry.jd}, Nathan: ${entry.nathan}</li>`;
+            });
+            leaderboardHTML += "</ul>";
+            document.getElementById("mainDiv").innerHTML = leaderboardHTML;
+        })
+        .catch(err => {
+            console.error("Failed to load leaderboard", err);
+            document.getElementById("mainDiv").textContent = "Error loading leaderboard";
+        });
 }
+
 
